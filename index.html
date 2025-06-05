@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Woehammer Solo AI</title>
+  <title>Woehammer Solo AI v1.1</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #121212; color: #f5f5f5; }
     h1 { color: #ffcc00; text-align: center; }
@@ -14,77 +14,39 @@
 </head>
 <body>
   <div class="container">
-    <h1>Woehammer Solo AI</h1>
+    <h1>Woehammer Solo AI v1.1</h1>
 
-    <h2>Select Grand Alliance</h2>
-    <select id="allianceSelector" onchange="loadFactions()">
-      <option value="">-- Select Alliance --</option>
-      <option value="destruction">Destruction</option>
+    <h2>Pre-Battle Setup: Kruleboyz</h2>
+
+    <label for="formation">Battle Formation:</label>
+    <select id="formation">
+      <option value="cunningSkulkers">Cunning Skulkers</option>
     </select>
 
-    <h2>Select Faction</h2>
-    <select id="factionSelector" onchange="loadUnits()">
-      <option value="">-- Select Faction --</option>
-    </select>
+    <h3>Heroic Trait</h3>
+    <button onclick="randomTrait()">Roll Heroic Trait</button>
+    <div id="traitResult" style="margin-top:1rem; font-weight:bold;"></div>
 
-    <h2>Select Unit AI</h2>
-    <select id="unitSelector">
-      <option value="">-- Select Unit --</option>
-    </select>
+    <h3>Launch AI</h3>
+    <button onclick="loadAIPage()">Start AI</button>
 
-    <button onclick="loadUnitPage()">Load AI</button>
-
-    <div class="footer">Woehammer Solo AI System v1.0</div>
+    <div class="footer">Woehammer Solo AI System v1.1</div>
   </div>
 
   <script>
-    const data = {
-      destruction: {
-        kruleboyz: {
-          name: "Kruleboyz",
-          units: [
-            { id: "kruleboyz", name: "Kruleboyz Spearhead AI", link: "kruleboyz.html" }
-          ]
-        }
-      }
-    };
-
-    function loadFactions() {
-      const alliance = document.getElementById('allianceSelector').value;
-      const factionSelector = document.getElementById('factionSelector');
-      factionSelector.innerHTML = '<option value=\"\">-- Select Faction --</option>';
-      if (data[alliance]) {
-        for (let factionKey in data[alliance]) {
-          const faction = data[alliance][factionKey];
-          const option = document.createElement('option');
-          option.value = factionKey;
-          option.textContent = faction.name;
-          factionSelector.appendChild(option);
-        }
-      }
+    function randomTrait() {
+      const traits = [
+        "Dirty Tricks: Add +1 to hit in first battle round.",
+        "Slippery Git: Reroll retreat rolls.",
+        "Swamp Savvy: Ignore movement penalties for terrain.",
+        "Vicious Ambusher: +3\" to first move."
+      ];
+      const roll = Math.floor(Math.random() * traits.length);
+      document.getElementById('traitResult').innerText = traits[roll];
     }
 
-    function loadUnits() {
-      const alliance = document.getElementById('allianceSelector').value;
-      const factionKey = document.getElementById('factionSelector').value;
-      const unitSelector = document.getElementById('unitSelector');
-      unitSelector.innerHTML = '<option value=\"\">-- Select Unit --</option>';
-      if (data[alliance] && data[alliance][factionKey]) {
-        const units = data[alliance][factionKey].units;
-        units.forEach(unit => {
-          const option = document.createElement('option');
-          option.value = unit.link;
-          option.textContent = unit.name;
-          unitSelector.appendChild(option);
-        });
-      }
-    }
-
-    function loadUnitPage() {
-      const unitPage = document.getElementById('unitSelector').value;
-      if (unitPage) {
-        window.location.href = unitPage;
-      }
+    function loadAIPage() {
+      window.location.href = "kruleboyz.html";
     }
   </script>
 </body>
