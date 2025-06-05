@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kruleboyz Spearhead AI</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #121212; color: #f5f5f5; }
+    h1 { color: #9fe870; text-align: center; }
+    .container { max-width: 600px; margin: auto; text-align: center; }
+    select, input, button { padding: 0.5rem; margin-top: 1rem; width: 100%; max-width: 300px; }
+    .output { margin-top: 2rem; background: #1e1e1e; padding: 1rem; border-radius: 8px; min-height: 100px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kruleboyz Spearhead AI Assistant</h1>
+
+    <label for="unit">Select Unit:</label>
+    <select id="unit">
+      <option value="killaboss">Killaboss with Stab-grot</option>
+      <option value="boltboyz">Man-skewer Boltboyz</option>
+      <option value="gutrippaz">Gutrippaz</option>
+      <option value="shaman">Swampcalla Shaman</option>
+    </select>
+
+    <label for="personality">AI Personality:</label>
+    <select id="personality">
+      <option value="balanced">Balanced</option>
+      <option value="sneaky">Sneaky</option>
+      <option value="savage">Savage</option>
+    </select>
+
+    <label for="enemyDistance">Distance to Nearest Enemy (inches):</label>
+    <input type="number" id="enemyDistance" min="0" />
+
+    <label for="objectiveNearby">Is an objective within 6"?</label>
+    <select id="objectiveNearby">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+
+    <button onclick="runKruleboyzAI()">Run AI Action</button>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function runKruleboyzAI() {
+      const unit = document.getElementById('unit').value;
+      const personality = document.getElementById('personality').value;
+      const distance = parseInt(document.getElementById('enemyDistance').value);
+      const objectiveNearby = document.getElementById('objectiveNearby').value;
+
+      let result = '';
+
+      if (unit === 'killaboss') {
+        if (distance <= 6) {
+          result = (personality === 'sneaky') ? "Hold position or wait for Gutrippaz to support." : "Charge the enemy!";
+        } else {
+          result = (objectiveNearby === 'yes') ? "Move onto the nearby objective." : "Advance cautiously behind Gutrippaz.";
+        }
+      }
+
+      if (unit === 'boltboyz') {
+        if (distance <= 24) {
+          if (distance <= 12) {
+            result = (personality === 'sneaky') ? "Fall back and shoot." : "Shoot nearest target.";
+          } else {
+            result = "Shoot nearest visible enemy.";
+          }
+        } else {
+          result = "Move towards central objective or into cover.";
+        }
+      }
+
+      if (unit === 'gutrippaz') {
+        if (distance <= 9) {
+          result = "Charge the nearest enemy!";
+        } else if (objectiveNearby === 'yes') {
+          result = "Hold and defend the objective.";
+        } else {
+          result = "Advance toward enemy or objective.";
+        }
+      }
+
+      if (unit === 'shaman') {
+        if (distance < 6) {
+          result = "Retreat if possible, otherwise apply buff.";
+        } else {
+          result = "Buff Gutrippaz or Boltboyz if nearby, then reposition.";
+        }
+      }
+
+      document.getElementById('output').innerText = result;
+    }
+  </script>
+</body>
+</html>
