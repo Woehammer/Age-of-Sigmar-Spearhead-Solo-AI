@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kruleboyz Spearhead AI</title>
+  <title>Kruleboyz AI v1.1</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #121212; color: #f5f5f5; }
     h1 { color: #9fe870; text-align: center; }
@@ -14,7 +14,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Kruleboyz Spearhead AI Assistant</h1>
+    <h1>Kruleboyz Spearhead AI (v1.1)</h1>
 
     <label for="unit">Select Unit:</label>
     <select id="unit">
@@ -22,13 +22,6 @@
       <option value="boltboyz">Man-skewer Boltboyz</option>
       <option value="gutrippaz">Gutrippaz</option>
       <option value="shaman">Swampcalla Shaman</option>
-    </select>
-
-    <label for="personality">AI Personality:</label>
-    <select id="personality">
-      <option value="balanced">Balanced</option>
-      <option value="sneaky">Sneaky</option>
-      <option value="savage">Savage</option>
     </select>
 
     <label for="enemyDistance">Distance to Nearest Enemy (inches):</label>
@@ -40,37 +33,44 @@
       <option value="no">No</option>
     </select>
 
-    <button onclick="runKruleboyzAI()">Run AI Action</button>
+    <label for="supportNearby">Is Gutrippaz support nearby?</label>
+    <select id="supportNearby">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+
+    <button onclick="runAI()">Run AI Action</button>
 
     <div class="output" id="output"></div>
   </div>
 
   <script>
-    function runKruleboyzAI() {
+    function runAI() {
       const unit = document.getElementById('unit').value;
-      const personality = document.getElementById('personality').value;
       const distance = parseInt(document.getElementById('enemyDistance').value);
       const objectiveNearby = document.getElementById('objectiveNearby').value;
+      const supportNearby = document.getElementById('supportNearby').value;
 
       let result = '';
 
+      // Kruleboyz baked-in doctrine logic
       if (unit === 'killaboss') {
         if (distance <= 6) {
-          result = (personality === 'sneaky') ? "Hold position or wait for Gutrippaz to support." : "Charge the enemy!";
+          result = supportNearby === 'yes' ? "Charge the enemy with Gutrippaz support!" : "Hold position until support arrives.";
         } else {
-          result = (objectiveNearby === 'yes') ? "Move onto the nearby objective." : "Advance cautiously behind Gutrippaz.";
+          result = objectiveNearby === 'yes' ? "Move onto the nearby objective." : "Advance carefully while scouting for support.";
         }
       }
 
       if (unit === 'boltboyz') {
         if (distance <= 24) {
           if (distance <= 12) {
-            result = (personality === 'sneaky') ? "Fall back and shoot." : "Shoot nearest target.";
+            result = "Fall back 3\" and shoot nearest target.";
           } else {
-            result = "Shoot nearest visible enemy.";
+            result = "Shoot nearest target from long range.";
           }
         } else {
-          result = "Move towards central objective or into cover.";
+          result = "Move cautiously toward cover or central objective.";
         }
       }
 
