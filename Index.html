@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woehammer Solo AI</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #121212; color: #f5f5f5; }
+    h1 { color: #ffcc00; text-align: center; }
+    .container { max-width: 600px; margin: auto; text-align: center; }
+    select, button { padding: 0.5rem; margin-top: 1rem; width: 100%; max-width: 300px; }
+    .footer { margin-top: 3rem; font-size: 0.8rem; color: #888; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Woehammer Solo AI</h1>
+
+    <h2>Select Grand Alliance</h2>
+    <select id="allianceSelector" onchange="loadFactions()">
+      <option value="">-- Select Alliance --</option>
+      <option value="destruction">Destruction</option>
+    </select>
+
+    <h2>Select Faction</h2>
+    <select id="factionSelector" onchange="loadUnits()">
+      <option value="">-- Select Faction --</option>
+    </select>
+
+    <h2>Select Unit AI</h2>
+    <select id="unitSelector">
+      <option value="">-- Select Unit --</option>
+    </select>
+
+    <button onclick="loadUnitPage()">Load AI</button>
+
+    <div class="footer">Woehammer Solo AI System v1.0</div>
+  </div>
+
+  <script>
+    const data = {
+      destruction: {
+        kruleboyz: {
+          name: "Kruleboyz",
+          units: [
+            { id: "kruleboyz", name: "Kruleboyz Spearhead AI", link: "kruleboyz.html" }
+          ]
+        }
+      }
+    };
+
+    function loadFactions() {
+      const alliance = document.getElementById('allianceSelector').value;
+      const factionSelector = document.getElementById('factionSelector');
+      factionSelector.innerHTML = '<option value=\"\">-- Select Faction --</option>';
+      if (data[alliance]) {
+        for (let factionKey in data[alliance]) {
+          const faction = data[alliance][factionKey];
+          const option = document.createElement('option');
+          option.value = factionKey;
+          option.textContent = faction.name;
+          factionSelector.appendChild(option);
+        }
+      }
+    }
+
+    function loadUnits() {
+      const alliance = document.getElementById('allianceSelector').value;
+      const factionKey = document.getElementById('factionSelector').value;
+      const unitSelector = document.getElementById('unitSelector');
+      unitSelector.innerHTML = '<option value=\"\">-- Select Unit --</option>';
+      if (data[alliance] && data[alliance][factionKey]) {
+        const units = data[alliance][factionKey].units;
+        units.forEach(unit => {
+          const option = document.createElement('option');
+          option.value = unit.link;
+          option.textContent = unit.name;
+          unitSelector.appendChild(option);
+        });
+      }
+    }
+
+    function loadUnitPage() {
+      const unitPage = document.getElementById('unitSelector').value;
+      if (unitPage) {
+        window.location.href = unitPage;
+      }
+    }
+  </script>
+</body>
+</html>
